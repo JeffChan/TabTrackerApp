@@ -6,13 +6,20 @@
     <uses-sdk android:minSdkVersion="10" />
 
     <application android:icon="@drawable/icon" android:label="@string/app_name">
-        <activity android:name=".UsersActivity"
+        <activity android:name=".LoginActivity"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".ItemsActivity" />
+        <activity android:name=".ContactPickerActivity" />
+        <activity android:name=".NewItemActivity" />
+        <activity android:name=".TabsActivity" />
+        <activity android:name=".UsersActivity" />
     </application>
+    
+    <uses-permission android:name="android.permission.INTERNET">
+    </uses-permission>
 </manifest>
