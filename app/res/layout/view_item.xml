@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:onClick="editItemHandler"
+  android:weightSum="1.0">
+	<TextView
+		android:id="@+id/payer"
+		android:layout_weight="0.75"
+		android:layout_width="0dip"
+ 		android:layout_height="fill_parent"/>
+	<TextView
+		android:id="@+id/cost"
+		android:layout_weight="0.25"
+		android:layout_width="0dip"
+ 		android:layout_height="fill_parent"/>
+</LinearLayout>
