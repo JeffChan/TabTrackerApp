@@ -15,7 +15,7 @@
         </activity>
         <activity android:name=".ItemsActivity" />
         <activity android:name=".ContactPickerActivity" />
-        <activity android:name=".NewItemActivity" />
+        <activity android:name=".NewTabActivity" />
         <activity android:name=".TabsActivity" />
         <activity android:name=".UsersActivity" />
     </application>
