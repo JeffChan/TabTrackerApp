@@ -1,10 +1,14 @@
 package edu.mit.tabtracker.android;
 
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+import com.facebook.android.AsyncFacebookRunner;
 import com.facebook.android.Facebook;
 
 
@@ -151,5 +155,30 @@ public class Session {
         fbLoggingIn = null;
         return fb;
     }
-
+    
+    public void fetchFriends(final AppSessionListener listener) {
+    	new AsyncFacebookRunner(fb).request("me/friends", 
+         	new AsyncRequestListener() {
+             	public void onComplete(JSONObject dataObj, final Object state) {
+					JSONArray friends = dataObj.optJSONArray("data");
+					String[] friendNames = new String[friends.length()];
+					int[] friendIds = new int[friends.length()];
+					for (int i=0; i<friends.length(); i++) {
+					    friendNames[i] = friends.optJSONObject(i).optString("name");
+					    friendIds[i] = friends.optJSONObject(i).optInt("id");
+					}
+					FriendsListSingleton.getInstance().store(friendIds, friendNames);
+					listener.onFetchFriendsComplete(friendIds, friendNames);
+             	}
+             	
+             	public void onFail(String message) {
+             		String[] friendNames = new String[0];
+					int[] friendIds = new int[0];
+             		FriendsListSingleton.getInstance().store(friendIds, friendNames);
+					listener.onFetchFriendsComplete(friendIds, friendNames);
+             	}
+             	
+         	}, null);
+    }
+    
 }

@@ -21,14 +21,17 @@ abstract class AsyncRequestListener implements RequestListener {
             onComplete(obj, state);
         } catch (JSONException e) {
             e.printStackTrace();
+            onFail(e.getMessage());
             Log.e("facebook-stream", "JSON Error:" + e.getMessage());
         } catch (FacebookError e) {
+        	onFail(e.getMessage());
             Log.e("facebook-stream", "Facebook Error:" + e.getMessage());
         }
 
     }
 
     public abstract void onComplete(JSONObject obj, final Object state);
+    public abstract void onFail(String errorMessage);
 
     public void onFacebookError(FacebookError e, final Object state) {
         Log.e("stream", "Facebook Error:" + e.getMessage());

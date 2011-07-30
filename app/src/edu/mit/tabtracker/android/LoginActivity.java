@@ -3,7 +3,6 @@
  */
 package edu.mit.tabtracker.android;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -30,7 +29,6 @@ public class LoginActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
         
         Session session = Session.restore(this);
         if (session == null) {
@@ -38,6 +36,7 @@ public class LoginActivity extends Activity {
         	facebook.authorize(this, PERMISSIONS, new AppLoginListener(facebook));
         } else {
         	startActivity(new Intent(this, UsersActivity.class));
+        	finish();
         }
     }
 	
@@ -54,29 +53,18 @@ public class LoginActivity extends Activity {
         }
 
         public void onComplete(Bundle values) {
-            new AsyncFacebookRunner(fb).request("me", 
+        	new AsyncFacebookRunner(fb).request("me", 
             	new AsyncRequestListener() {
                 	public void onComplete(JSONObject obj, final Object state) {
                 		// save the session data
                 		String uid = obj.optString("id");
                 		String name = obj.optString("name");
-                		new Session(fb, uid, name).save(LoginActivity.this);
+                		Session session = new Session(fb, uid, name);
+                		session.save(LoginActivity.this);
                 	}
+                	
+                	public void onFail(String message) {}
             	}, null);
-            
-            new AsyncFacebookRunner(fb).request("me/friends", 
-                	new AsyncRequestListener() {
-                    	public void onComplete(JSONObject dataObj, final Object state) {
-							JSONArray friends = dataObj.optJSONArray("data");
-							String[] friendNames = new String[friends.length()];
-							Integer[] friendIds = new Integer[friends.length()];
-							for (int i=0; i<friends.length(); i++) {
-							    friendNames[i] = friends.optJSONObject(i).optString("name");
-							    friendIds[i] = friends.optJSONObject(i).optInt("id");
-							}
-							FriendsListSingleton.getInstance().store(friendIds, friendNames);
-                    	}
-                	}, null);
         }
 
         public void onError(DialogError e) {
@@ -96,6 +84,7 @@ public class LoginActivity extends Activity {
 		super.onActivityResult(requestCode, resultCode, data);
         
 		startActivity(new Intent(this, UsersActivity.class));
+		finish();
     }
 	
 }

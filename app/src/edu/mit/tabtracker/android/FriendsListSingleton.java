@@ -2,7 +2,7 @@ package edu.mit.tabtracker.android;
 
 public class FriendsListSingleton {
 	private static final FriendsListSingleton instance = new FriendsListSingleton();
-	private Integer[] friendIds;
+	private int[] friendIds;
 	private String[] friendNames;
 	 
     // Private constructor prevents instantiation from other classes
@@ -14,12 +14,12 @@ public class FriendsListSingleton {
         return instance;
     }
     
-    public void store(Integer[] ids, String[] names) {
+    public void store(int[] ids, String[] names) {
     	friendIds = ids;
     	friendNames = names;
     }
     
-    public Integer[] getFriendIds() {
+    public int[] getFriendIds() {
     	return friendIds;
     }
     
